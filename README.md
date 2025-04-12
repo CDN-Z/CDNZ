@@ -56,3 +56,66 @@ User          Edge Server         Redis            SSD Cache        Origin
  |                |                 |      |           |                |
  |<---Response----|                 |                  |                |
 ```
+
+## Architecture
+``` text
++------------------+
+                      |     CLIENTS      |
+                      | (Web/Mobile/OTT) |
+                      +--------+---------+
+                               |
+                               v
+                      +------------------+
+                      |  LOAD BALANCER   |
+                      +--------+---------+
+                               |
+                               v
+                      +------------------+
+                      |   MANAGEMENT     |
+                      | Request Routing  |
+                      | Auto-scaling     |
+                      | Multi-CDN        |
+                      +--------+---------+
+                               |
+                               v
++-------------+      +-------------------+       +-------------+
+|  ANALYTICS  |<---->|   EDGE LOCATIONS  |<----->|  SECURITY   |
+| Real-time   |      |   (Global PoPs)   |       | Auth Tokens |
+| Engagement  |      +--------+----------+       | DRM         |
+| Bandwidth   |               |                  | Rate Limits |
+| Cache Ratio |               |                  | WAF/DDoS    |
++-------------+               v                  +-------------+
+                    +----------------------+
+                    |     CACHE TIERS      |
+                    |                      |
+                    | Redis (Memory Cache) |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    |   SSD Cache Tier     |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    |   HDD Cache Tier     |
+                    +----------+-----------+
+                               |
+               Cache Miss      v      Cache Hit
+               +---------------+---------------+
+               |                               |
+               v                               |
+    +----------------------+                   |
+    |    ORIGIN SERVER     |                   |
+    +----------+-----------+                   |
+               |                               |
+               v                               v
+    +----------------------+        Back to Client
+    |  VIDEO PROCESSING    |        through Edge
+    | Transcoding          |
+    | Thumbnail Generation |
+    | Compression          |
+    | Adaptive Bitrate     |
+    +----------------------+
+
+```
