@@ -8,6 +8,7 @@
 ## Performance
 - ngx_brotli compress data  https://github.com/CDN-Z/ngx_brotli
 - lua-resty-mlcache  https://github.com/CDN-Z/lua-resty-mlcache
+- Use boringssl instead of openssl https://boringssl.googlesource.com/boringssl
 
 ## Security
 - lua-resty-limit-traffic https://github.com/CDN-Z/lua-resty-limit-traffic
